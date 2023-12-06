@@ -8,30 +8,38 @@ import { Router } from '@angular/router';
   templateUrl: './create-calculation.component.html',
   styleUrls: ['./create-calculation.component.css']
 })
-export class CreateCalculationComponent{
-
+export class CreateCalculationComponent {
   calculation: Calculation = new Calculation();
-  constructor (private calculationService: CalculationService,
-    private router: Router) {
+  errorMessage: string = '';  // Dodane pole do przechowywania komunikatu o błędzie
 
-  }  
-  
-saveCalculation(){
-  this.calculationService.createCalculation(this.calculation).subscribe(data =>{
-    console.log(data);
-    this.goToCalculationList();
-  },
-  error => console.log(error));    
-}
+  constructor(
+    private calculationService: CalculationService,
+    private router: Router
+  ) {}
 
-goToCalculationList(){
-  this.router.navigate(['/calculations']);
+  saveCalculation() {
+    this.calculationService.createCalculation(this.calculation).subscribe(
+      data => {
+        console.log(data);
+        this.goToCalculationList();
+      },
+      error => {
+        console.error(error);
+        if (error.error) {
+          this.errorMessage = error.error.message;  // Ustawienie komunikatu o błędzie
+        } else {
+          this.errorMessage = 'Wystąpił nieznany błąd.';
+        }
+      }
+    );
+  }
 
-}
+  goToCalculationList() {
+    this.router.navigate(['/calculations']);
+  }
+
   onSubmit() {
     console.log(this.calculation);
     this.saveCalculation();
-
   }
-
 }

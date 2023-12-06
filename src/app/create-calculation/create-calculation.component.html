@@ -1,15 +1,22 @@
 <div class="col-md-6 offset-md-3">
-    <h3> Create Calculation </h3>
-    <form (ngSubmit) = "onSubmit()">
-    
-        <div class="form-group">
-            <label> Equation</label>
-            <input type = "text" class="form-control" id = "equation"
-            [(ngModel)] = "calculation.equation" name = "equation">
-    
-        </div>
+    <h3>Create Calculation</h3>
+    <form (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label>Expression</label>
+        <input
+          type="text"
+          class="form-control"
+          id="equation"
+          [(ngModel)]="calculation.equation"
+          name="equation"
+        />
+      </div>
   
-        <button class="btn btn-success" type="submit">Submit</button>
-    
+      <div *ngIf="errorMessage" class="alert alert-danger">
+        {{ errorMessage }}
+      </div>
+  
+      <button class="btn btn-success" type="submit">Submit</button>
     </form>
-    </div>
+  </div>
+  
